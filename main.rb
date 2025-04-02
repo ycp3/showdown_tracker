@@ -50,15 +50,13 @@ class Score
   end
 end
 
-joined = false
-
 EM.run do
   ws = Faye::WebSocket::Client.new("wss://sim3.psim.us/showdown/websocket")
 
   ws.on :open do |event|
     ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}")
     EM.add_periodic_timer(60) do
-      ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}") unless joined
+      ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}")
     end
   end
 
@@ -76,14 +74,12 @@ EM.run do
       rooms["rooms"].each do |room_id, users|
         if ENV["WATCHED_2"] == users["p1"] || ENV["WATCHED_2"] == users["p2"]
           puts "JOINING"
-          joined = true
           ws.send("|/join #{room_id}")
         end
       end
     end
 
     if event.data.split("|")[-2] == "win"
-      joined = false
       scores = Score.win(event.data.split("|")[-1])
       bot.send_message(channel, "#{event.data.split("|")[-1]} won!\n#{scores[:p1][:name]}: #{scores[:p1][:score]} | #{scores[:p2][:name]}: #{scores[:p2][:score]}")
     end
