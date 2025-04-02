@@ -142,7 +142,7 @@ EM.run do
 
   ws.on :open do |event|
     ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}")
-    EM.add_periodic_timer(10) do
+    EM.add_periodic_timer(60) do
       ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}")
     end
   end
