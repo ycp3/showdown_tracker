@@ -56,6 +56,7 @@ EM.run do
   ws = Faye::WebSocket::Client.new("wss://sim3.psim.us/showdown/websocket")
 
   ws.on :open do |event|
+    ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}")
     EM.add_periodic_timer(30) do
       ws.send("|/cmd roomlist ,none,#{ENV["WATCHED_1"]}") unless joined
     end
