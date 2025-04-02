@@ -2,6 +2,17 @@ require "net/http"
 require "faye/websocket"
 require "eventmachine"
 require "json"
+require "discordrb"
+
+bot = Discordrb::Bot.new token: ENV["DISCORD_TOKEN"], intents: :unprivileged
+bot.run background: true
+
+# for now hardcoded to one channel because that's all I need it for
+channel = bot.servers.values.first.channels.find { |c| c.name == "bot_spam" }
+if channel.nil?
+  puts "No channel found"
+  exit
+end
 
 class Score
   def self.file
@@ -11,6 +22,7 @@ class Score
   end
 
   def self.win(player)
+    scores = {}
     file do |f|
       content = f.read
       if content.length == 0
@@ -30,9 +42,11 @@ class Score
 
       f.truncate(0)
       f.write("#{p1},#{p2},#{p1_score},#{p2_score}")
+      scores = { p1: { name: p1, score: p1_score }, p2: { name: p2, score: p2_score } }
     end
 
     puts "WIN, #{player}"
+    return scores
   end
 end
 
@@ -65,7 +79,8 @@ EM.run do
     end
 
     if event.data.split("|")[-2] == "win"
-      Score.win(event.data.split("|")[-1])
+      scores = Score.win(event.data.split("|")[-1])
+      bot.send_message(channel, "#{event.data.split("|")[-1]} won!\n#{scores[:p1][:name]}: #{scores[:p1][:score]} | #{scores[:p2][:name]}: #{scores[:p2][:score]}")
     end
   end
 
@@ -73,3 +88,5 @@ EM.run do
     ws = nil
   end
 end
+
+bot.join
