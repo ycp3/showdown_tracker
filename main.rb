@@ -87,6 +87,7 @@ EM.run do
 
   ws.on :close do |event|
     ws = nil
+    puts [:close, event.data]
   end
 end
 
