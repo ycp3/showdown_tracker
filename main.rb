@@ -66,7 +66,7 @@ EM.run do
     end
 
     if event.data.split("|")[-2] == "win"
-      scores = Score.win(event.data.split("|")[-1])
+      scores = win(event.data.split("|")[-1])
       bot.send_message(channel, "#{event.data.split("|")[-1]} won!\n#{scores[:p1][:name]}: #{scores[:p1][:score]} | #{scores[:p2][:name]}: #{scores[:p2][:score]}")
     end
   end
