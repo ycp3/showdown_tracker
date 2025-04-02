@@ -8,7 +8,7 @@ bot = Discordrb::Bot.new token: ENV["DISCORD_TOKEN"], intents: :unprivileged
 bot.run background: true
 
 # for now hardcoded to one channel because that's all I need it for
-channel = bot.servers.values.first.channels.find { |c| c.name == "bot_spam" }
+channel = bot.servers.values.first.channels.find { |c| c.name == ENV["CHANNEL_NAME"] }
 if channel.nil?
   puts "No channel found"
   exit
