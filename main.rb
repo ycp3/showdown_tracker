@@ -3,6 +3,9 @@ require "faye/websocket"
 require "eventmachine"
 require "json"
 require "discordrb"
+require "./battle_manager"
+
+MEMES = true
 
 def init_file(f)
   f.truncate(0)
@@ -128,6 +131,11 @@ bot.command :cancel do |event|
   "Cancelled game!"
 end
 
+bot.command :togglegifs do |event|
+  MEMES = !MEMES
+  event.respond "gifs are now #{MEMES ? "enabled" : "disabled"}"
+end
+
 bot.run background: true
 
 # for now hardcoded to one channel because that's all I need it for
@@ -136,6 +144,8 @@ if channel.nil?
   puts "No channel found"
   exit
 end
+
+bm = BattleManager.new(bot, channel)
 
 EM.run do
   ws = Faye::WebSocket::Client.new("wss://sim3.psim.us/showdown/websocket")
@@ -160,9 +170,14 @@ EM.run do
       end
     end
 
+    if event.data.start_with?(">battle")
+      bm.event(event.data, MEMES)
+    end
+
     if event.data.split("|")[-2] == "win"
       winner = event.data.split("|")[-1]
       scores = win(winner)
+      bm.battles.delete(event.data.split("|")[0])
       bot.send_message(channel, format_message(winner, scores))
     end
   end

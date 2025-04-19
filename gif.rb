@@ -5,7 +5,7 @@ require "open-uri"
 
 def get_sprite(name)
   return "sprites/#{name}.png" if File.exist?("sprites/#{name}.png")
-  url = URI("https://pokeapi.co/api/v2/pokemon-species/#{name}")
+  url = URI("https://pokeapi.co/api/v2/pokemon-species/#{name.gsub(" ", "-")}")
   response = Net::HTTP.get(url)
   url = URI(JSON.parse(response)["varieties"].first["pokemon"]["url"])
   response = Net::HTTP.get(url)
@@ -40,7 +40,7 @@ def silence_crab(winner, loser)
 end
 
 def slap(slapper, slapped)
-  gif = Magick::ImageList.new("images/slap.gif")
+  gif = Magick::ImageList.new("images/slap.gif").coalesce
   slapper_image = Magick::Image.read(get_sprite(slapper)).first
   slapped_image = Magick::Image.read(get_sprite(slapped)).first
   slapper_image.background_color = "transparent"
@@ -163,12 +163,11 @@ def slap(slapper, slapped)
   gif[96].composite!(slapper_image.resize(300, 300).flop, 60, 60, Magick::OverCompositeOp)
   gif[97].composite!(slapper_image.resize(300, 300).flop, -20, 80, Magick::OverCompositeOp)
   gif[98].composite!(slapper_image.resize(300, 300).flop, 40, 60, Magick::OverCompositeOp)
-  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
-  opt_gif.write("slap.gif")
+  gif.write("slap.gif")
 end
 
 def nine(winner, loser)
-  gif = Magick::ImageList.new("images/9.gif")
+  gif = Magick::ImageList.new("images/9.gif").coalesce
   winner_image = Magick::Image.read(get_sprite(winner)).first
   loser_image = Magick::Image.read(get_sprite(loser)).first
   gif[0].composite!(winner_image.resize(100, 100).flop, 160, 100, Magick::OverCompositeOp)
@@ -227,8 +226,7 @@ def nine(winner, loser)
   gif[31].composite!(winner_image.resize(50, 50).flop, 70, 150, Magick::OverCompositeOp)
   gif[32].composite!(winner_image.resize(50, 50).flop, 70, 150, Magick::OverCompositeOp)
   gif[33].composite!(winner_image.resize(50, 50).flop, 70, 140, Magick::OverCompositeOp)
-  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
-  opt_gif.write("9.gif")
+  gif.write("9.gif")
 end
 
 def suds(name)
@@ -239,24 +237,22 @@ def suds(name)
   gif.each do |frame|
     frame.composite!(sprite, 80, 30, Magick::OverCompositeOp)
   end
-  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
-  opt_gif.write("suds.gif")
+  gif.write("suds.gif")
 end
 
 def confusion(name)
-  gif = Magick::ImageList.new("images/confusion.gif")
+  gif = Magick::ImageList.new("images/confusion.gif").coalesce
   sprite = Magick::Image.read(get_sprite(name)).first
   sprite.flop!
   sprite.resize!(300, 300)
   gif.each do |frame|
     frame.composite!(sprite, -50, 110, Magick::OverCompositeOp)
   end
-  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
-  opt_gif.write("confusion.gif")
+  gif.write("confusion.gif")
 end
 
 def weave(attacker, defender)
-  gif = Magick::ImageList.new("images/weave.gif")
+  gif = Magick::ImageList.new("images/weave.gif").coalesce
   attacker_image = Magick::Image.read(get_sprite(attacker)).first
   defender_image = Magick::Image.read(get_sprite(defender)).first
   attacker_image.resize!(100, 100)
@@ -302,8 +298,5 @@ def weave(attacker, defender)
   gif[17].composite!(defender_image, 65, 55, Magick::OverCompositeOp)
   gif[18].composite!(attacker_image, 20, 50, Magick::OverCompositeOp)
   gif[18].composite!(defender_image, 65, 55, Magick::OverCompositeOp)
-  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
-  opt_gif.write("weave.gif")
+  gif.write("weave.gif")
 end
-
-weave("urshifu", "arceus")
