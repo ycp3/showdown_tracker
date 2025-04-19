@@ -1,7 +1,7 @@
 require "./gif"
 
 class Battle
-  attr_accessor :p1, :p2, :p1_mon, :p2_mon, :p1_hp, :p2_hp, :slapped
+  attr_accessor :p1, :p2, :p1_mon, :p2_mon, :p1_hp, :p2_hp, :slapped, :missed
 
   def initialize(p1, p2, p1_mon, p2_mon, p1_hp, p2_hp)
     @p1 = p1
@@ -11,6 +11,7 @@ class Battle
     @p1_hp = p1_hp
     @p2_hp = p2_hp
     @slapped = []
+    @missed = []
     p "BATTLE STARTED"
     p "P1: #{@p1_mon} - #{@p1_hp}"
     p "P2: #{@p2_mon} - #{@p2_hp}"
@@ -58,7 +59,25 @@ class BattleManager
     end
 
     data.each_with_index do |line, index|
-      if line.start_with?("|-damage|p1") && line.split("/")[0].gsub("|", " ")[-3..].to_i > 0
+      if line.start_with?("|-miss|p1")
+        b = @battles[battle]
+        if b.missed.include?([:p1, b.p1_mon, b.p2_mon])
+          weave(b.p1_mon, b.p2_mon)
+          b.missed.delete([:p1, b.p1_mon, b.p2_mon])
+          @bot.send_file(@channel, File.open("weave.gif", "r")) if @memes
+        else
+          @battles[battle].missed << [:p1, b.p1_mon, b.p2_mon]
+        end
+      elsif line.start_with?("|-miss|p2")
+        b = @battles[battle]
+        if b.missed.include?([:p2, b.p2_mon, b.p1_mon])
+          weave(b.p2_mon, b.p1_mon)
+          b.missed.delete([:p2, b.p2_mon, b.p1_mon])
+          @bot.send_file(@channel, File.open("weave.gif", "r")) if @memes
+        else
+          @battles[battle].missed << [:p2, b.p2_mon, b.p1_mon]
+        end
+      elsif line.start_with?("|-damage|p1") && line.split("/")[0].gsub("|", " ")[-3..].to_i > 0
         @battles[battle].p1_hp = line.split("/")[0].gsub("|", " ")[-3..].to_i
       elsif line.start_with?("|-damage|p2") && line.split("/")[0].gsub("|", " ")[-3..].to_i > 0
         @battles[battle].p2_hp = line.split("/")[0].gsub("|", " ")[-3..].to_i
