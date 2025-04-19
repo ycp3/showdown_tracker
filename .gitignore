@@ -1,1 +1,4 @@
 scores
+
+sprites/*
+!sprites/.keep
