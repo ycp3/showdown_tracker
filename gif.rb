@@ -166,3 +166,91 @@ def slap(slapper, slapped)
   opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
   opt_gif.write("slap.gif")
 end
+
+def nine(winner, loser)
+  gif = Magick::ImageList.new("images/9.gif")
+  winner_image = Magick::Image.read(get_sprite(winner)).first
+  loser_image = Magick::Image.read(get_sprite(loser)).first
+  gif[0].composite!(winner_image.resize(100, 100).flop, 160, 100, Magick::OverCompositeOp)
+  gif[0].composite!(loser_image.resize(100, 100), 220, 100, Magick::OverCompositeOp)
+  gif[1].composite!(winner_image.resize(100, 100).flop, 160, 100, Magick::OverCompositeOp)
+  gif[1].composite!(loser_image.resize(100, 100), 220, 100, Magick::OverCompositeOp)
+  gif[2].composite!(winner_image.resize(100, 100).flop, 160, 100, Magick::OverCompositeOp)
+  gif[2].composite!(loser_image.resize(100, 100), 220, 100, Magick::OverCompositeOp)
+  gif[3].composite!(winner_image.resize(100, 100).flop, 150, 100, Magick::OverCompositeOp)
+  gif[3].composite!(loser_image.resize(100, 100), 230, 100, Magick::OverCompositeOp)
+  gif[4].composite!(winner_image.resize(100, 100).flop, 150, 120, Magick::OverCompositeOp)
+  gif[4].composite!(loser_image.resize(100, 100), 230, 120, Magick::OverCompositeOp)
+  gif[5].composite!(winner_image.resize(130, 130).flop, 130, 105, Magick::OverCompositeOp)
+  gif[5].composite!(loser_image.resize(130, 130), 270, 105, Magick::OverCompositeOp)
+  gif[6].composite!(winner_image.resize(150, 150).flop, 100, 110, Magick::OverCompositeOp)
+  gif[6].composite!(loser_image.resize(150, 150), 290, 110, Magick::OverCompositeOp)
+  gif[7].composite!(winner_image.resize(170, 170).flop, 80, 100, Magick::OverCompositeOp)
+  gif[7].composite!(loser_image.resize(170, 170), 250, 100, Magick::OverCompositeOp)
+  gif[8].composite!(winner_image.resize(170, 170).flop, 80, 100, Magick::OverCompositeOp)
+  gif[8].composite!(loser_image.resize(170, 170), 250, 100, Magick::OverCompositeOp)
+  gif[9].composite!(winner_image.resize(170, 170).flop, 80, 100, Magick::OverCompositeOp)
+  gif[9].composite!(loser_image.resize(170, 170), 250, 100, Magick::OverCompositeOp)
+  gif[10].composite!(winner_image.resize(170, 170).flop, 80, 100, Magick::OverCompositeOp)
+  gif[10].composite!(loser_image.resize(170, 170), 250, 100, Magick::OverCompositeOp)
+  gif[11].composite!(winner_image.resize(170, 170).flop, 80, 100, Magick::OverCompositeOp)
+  gif[11].composite!(loser_image.resize(170, 170), 250, 100, Magick::OverCompositeOp)
+  gif[12].composite!(winner_image.resize(90, 90).flop, 130, 110, Magick::OverCompositeOp)
+  gif[12].composite!(loser_image.resize(90, 90), 300, 40, Magick::OverCompositeOp)
+  gif[13].composite!(winner_image.resize(50, 50).flop, 110, 130, Magick::OverCompositeOp)
+  gif[13].composite!(loser_image.resize(50, 50), 390, 0, Magick::OverCompositeOp)
+  gif[14].composite!(winner_image.resize(50, 50).flop, 90, 140, Magick::OverCompositeOp)
+  gif[14].composite!(loser_image.resize(50, 50), 400, 0, Magick::OverCompositeOp)
+  gif[15].composite!(winner_image.resize(50, 50).flop, 90, 140, Magick::OverCompositeOp)
+  gif[15].composite!(loser_image.resize(50, 50), 420, 0, Magick::OverCompositeOp)
+  gif[16].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[16].composite!(loser_image.resize(50, 50), 430, 0, Magick::OverCompositeOp)
+  gif[17].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[17].composite!(loser_image.resize(50, 50), 440, 0, Magick::OverCompositeOp)
+  gif[18].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[18].composite!(loser_image.resize(50, 50), 450, 10, Magick::OverCompositeOp)
+  gif[19].composite!(winner_image.resize(50, 50).flop, 90, 160, Magick::OverCompositeOp)
+  gif[19].composite!(loser_image.resize(50, 50), 460, 10, Magick::OverCompositeOp)
+  gif[20].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[20].composite!(loser_image.resize(50, 50), 470, 10, Magick::OverCompositeOp)
+  gif[21].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[21].composite!(loser_image.resize(50, 50), 480, 10, Magick::OverCompositeOp)
+  gif[22].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[23].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[24].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[25].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[26].composite!(winner_image.resize(50, 50).flop, 90, 170, Magick::OverCompositeOp)
+  gif[27].composite!(winner_image.resize(50, 50).flop, 80, 170, Magick::OverCompositeOp)
+  gif[28].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[29].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[30].composite!(winner_image.resize(50, 50).flop, 80, 160, Magick::OverCompositeOp)
+  gif[31].composite!(winner_image.resize(50, 50).flop, 70, 150, Magick::OverCompositeOp)
+  gif[32].composite!(winner_image.resize(50, 50).flop, 70, 150, Magick::OverCompositeOp)
+  gif[33].composite!(winner_image.resize(50, 50).flop, 70, 140, Magick::OverCompositeOp)
+  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
+  opt_gif.write("9.gif")
+end
+
+def suds(name)
+  gif = Magick::ImageList.new("images/suds.gif").coalesce
+  sprite = Magick::Image.read(get_sprite(name)).first
+  sprite.flop!
+  sprite.resize!(300, 300)
+  gif.each do |frame|
+    frame.composite!(sprite, 80, 30, Magick::OverCompositeOp)
+  end
+  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
+  opt_gif.write("suds.gif")
+end
+
+def confusion(name)
+  gif = Magick::ImageList.new("images/confusion.gif")
+  sprite = Magick::Image.read(get_sprite(name)).first
+  sprite.flop!
+  sprite.resize!(300, 300)
+  gif.each do |frame|
+    frame.composite!(sprite, -50, 110, Magick::OverCompositeOp)
+  end
+  opt_gif = gif.optimize_layers(Magick::OptimizeLayer)
+  opt_gif.write("confusion.gif")
+end
